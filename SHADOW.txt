@@ -1,0 +1,18 @@
+shadow prebuilt repo: libfmq (target)
+  upstream: system/libfmq
+  api-level: 32 payload (branch 34-20261024)
+  blobs: org.blisslabs.ag.libfmq.apex + org.blisslabs.ag.libfmq.dev.apex @ 14000001 (extracted; blobs deleted, not tracked)
+  recipe: apex/libfmq built-from sha 8a8d00c (ag-ci/system_libfmq run #14, published
+    12:18Z 2026-10-24); recipe since resynced to 2054471 - payload predates resync
+  layout: flattened root (payload contents at repo root)
+  modules: libfmq libfmq-base
+  notes: source also defines fmq_fuzzer and android.fmq.test(+impl) - tests dropped.
+    libfmq-base is header-only in source; recipe adds payload symlink
+    libfmq-base.so -> libfmq.so (plus libfmq-base-x86_64-v2.so chain, kept untracked
+    by Android.bp). libfmq-base exposed as cc_library_headers to match source: the
+    only in-tree consumer (system/libhidl) uses it via header_libs. GAP: dev payload
+    ships include/ only; base/fmq/MQDescriptorBase.h (exported by source
+    libfmq-base, included by libhidl hidl/MQDescriptor.h) is missing from the
+    payload - needs a recipe fix in a later iteration, do not expect libhidl to
+    compile against this shadow until then. Dummies and linker.config.json filtered.
+  date: 2026-10-24
