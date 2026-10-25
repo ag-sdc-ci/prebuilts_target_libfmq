@@ -29,7 +29,7 @@ cc_prebuilt_library_shared {
     vendor_available: true,
     product_available: true,
     native_bridge_supported: true,
-    host_supported: false,
+    host_supported: true,
     check_elf_files: false,
     double_loadable: true,
     vndk: {
