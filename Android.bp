@@ -24,7 +24,7 @@ cc_library_headers {
     ],
 }
 
-cc_prebuilt_library_shared {
+cc_prebuilt_library {
     name: "libfmq",
     vendor_available: true,
     product_available: true,
@@ -62,5 +62,10 @@ cc_prebuilt_library_shared {
         "test_com.android.neuralnetworks",
     ],
     min_sdk_version: "29",
-    srcs: ["lib/libfmq.so"],
+    shared: {
+        srcs: ["lib/libfmq.so"],
+    },
+    static: {
+        srcs: ["lib/libfmq.a"],
+    },
 }

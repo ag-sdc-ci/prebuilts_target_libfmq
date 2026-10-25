@@ -1,18 +1,28 @@
 shadow prebuilt repo: libfmq (target)
   upstream: system/libfmq
-  api-level: 32 payload (branch 34-20261024)
-  blobs: org.blisslabs.ag.libfmq.apex + org.blisslabs.ag.libfmq.dev.apex @ 14000001 (extracted; blobs deleted, not tracked)
-  recipe: apex/libfmq built-from sha 8a8d00c (ag-ci/system_libfmq run #14, published
-    12:18Z 2026-10-24); recipe since resynced to 2054471 - payload predates resync
+  api-level: 34 payload, LEVEL v3 (branch 34-20261024)
+  blobs: org.blisslabs.ag.libfmq.apex + org.blisslabs.ag.libfmq.dev.apex @ 14000002
+    (extracted; blobs deleted, not tracked)
+  recipe: apex/libfmq built-from sha 4954219 (ag-ci/system_libfmq, local makeapex
+    ag-build API=34 LEVEL=v3, pkg 14.0.0_r67-2, 2026-10-25). Supersedes the
+    api-32-era payload @ 14000001 (run #14 sha 8a8d00c, 2026-10-24). Static variant
+    now recipe-reproducible: bp2ninja emits out/lib64/libfmq.a (archive_static, same
+    EventFlag.o/FmqInternal.o as the .so) and _package-dev stages it exact-path as
+    lib/libfmq.a - the .a is no longer an inheritance from the original package.
   layout: flattened root (payload contents at repo root)
   modules: libfmq libfmq-base
   notes: source also defines fmq_fuzzer and android.fmq.test(+impl) - tests dropped.
-    libfmq-base is header-only in source; recipe adds payload symlink
-    libfmq-base.so -> libfmq.so (plus libfmq-base-x86_64-v2.so chain, kept untracked
-    by Android.bp). libfmq-base exposed as cc_library_headers to match source: the
-    only in-tree consumer (system/libhidl) uses it via header_libs. GAP: dev payload
-    ships include/ only; base/fmq/MQDescriptorBase.h (exported by source
-    libfmq-base, included by libhidl hidl/MQDescriptor.h) is missing from the
-    payload - needs a recipe fix in a later iteration, do not expect libhidl to
-    compile against this shadow until then. Dummies and linker.config.json filtered.
-  date: 2026-10-24
+    libfmq-base is header-only in source; payload carries recipe symlinks
+    libfmq-base.so -> libfmq.so plus v2/v3 soname chain (kept untracked by
+    Android.bp). libfmq-base exposed as cc_library_headers to match source: the
+    only in-tree consumer (system/libhidl) uses it via header_libs. include/fmq
+    replaced wholesale with the lineage-21.0 set (6 headers; AidlMessageQueueBase/
+    Cpp + AidlMQDescriptorShimBase/Cpp were consolidated upstream and are absent in
+    both the lineage-21.0 tip and the los-21 24Q2 snap b14678b). lib/libfmq.so
+    NEEDED: libbase/liblog/libcutils/libutils/libc++_shared/libm/libdl/libc.
+    lib/libfmq.a: ar archive, EventFlag.o + FmqInternal.o, real android::hardware
+    FMQ/EventFlag symbols. GAP unchanged: base/fmq/MQDescriptorBase.h (exported by
+    source libfmq-base, included by libhidl hidl/MQDescriptor.h) is still missing
+    from the payload - do not expect libhidl to compile against this shadow until a
+    later recipe fix stages it. Dummies and linker.config.json filtered.
+  date: 2026-10-25
