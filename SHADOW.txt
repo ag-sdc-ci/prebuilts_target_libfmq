@@ -3,8 +3,8 @@ shadow prebuilt repo: libfmq (target)
   api-level: 34 payload, LEVEL v3 (branch 34-20261024)
   blobs: org.blisslabs.ag.libfmq.apex + org.blisslabs.ag.libfmq.dev.apex @ 14000002
     (extracted; blobs deleted, not tracked)
-  recipe: apex/libfmq built-from sha 4954219 (ag-ci/system_libfmq, local makeapex
-    ag-build API=34 LEVEL=v3, pkg 14.0.0_r67-2, 2026-10-25). Supersedes the
+  recipe: apex/libfmq built-from sha 2f211fe (ag-ci/system_libfmq, local makeapex
+    ag-build API=34 LEVEL=v3, pkg 14.0.0_r67-3, 2026-10-25). Supersedes the
     api-32-era payload @ 14000001 (run #14 sha 8a8d00c, 2026-10-24). Static variant
     now recipe-reproducible: bp2ninja emits out/lib64/libfmq.a (archive_static, same
     EventFlag.o/FmqInternal.o as the .so) and _package-dev stages it exact-path as
@@ -18,11 +18,14 @@ shadow prebuilt repo: libfmq (target)
     only in-tree consumer (system/libhidl) uses it via header_libs. include/fmq
     replaced wholesale with the lineage-21.0 set (6 headers; AidlMessageQueueBase/
     Cpp + AidlMQDescriptorShimBase/Cpp were consolidated upstream and are absent in
-    both the lineage-21.0 tip and the los-21 24Q2 snap b14678b). lib/libfmq.so
+    both the lineage-21.0 tip and the los-21 24Q2 snap b14678b); MQDescriptorBase.h
+    added 2026-10-25 (recipe sha 2f211fe stages it exact-path from base/fmq/,
+    sha 69d61adc, identical to the los-21 24Q2 snap b14678b copy) as the 7th
+    include/fmq header. lib/libfmq.so
     NEEDED: libbase/liblog/libcutils/libutils/libc++_shared/libm/libdl/libc.
     lib/libfmq.a: ar archive, EventFlag.o + FmqInternal.o, real android::hardware
-    FMQ/EventFlag symbols. GAP unchanged: base/fmq/MQDescriptorBase.h (exported by
-    source libfmq-base, included by libhidl hidl/MQDescriptor.h) is still missing
-    from the payload - do not expect libhidl to compile against this shadow until a
-    later recipe fix stages it. Dummies and linker.config.json filtered.
+    FMQ/EventFlag symbols. GAP CLOSED 2026-10-25: base/fmq/MQDescriptorBase.h
+    (exported by source libfmq-base, included by libhidl hidl/MQDescriptor.h and
+    include/fmq/AidlMQDescriptorShim.h) now staged at include/fmq/MQDescriptorBase.h;
+    libhidl compiles against this shadow. Dummies and linker.config.json filtered.
   date: 2026-10-25
