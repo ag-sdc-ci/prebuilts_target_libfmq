@@ -29,7 +29,7 @@ cc_prebuilt_library_shared {
     vendor_available: true,
     product_available: true,
     native_bridge_supported: true,
-    host_supported: true,
+    host_supported: false,
     check_elf_files: false,
     double_loadable: true,
     vndk: {
@@ -37,6 +37,13 @@ cc_prebuilt_library_shared {
     },
     export_include_dirs: [
         "include",
+    ],
+    shared_libs: [
+        "libcutils",
+        "libutils",
+    ],
+    header_libs: [
+        "libfmq-base",
     ],
     export_shared_lib_headers: [
         "libcutils",
