@@ -62,10 +62,22 @@ cc_prebuilt_library {
         "test_com.android.neuralnetworks",
     ],
     min_sdk_version: "29",
-    shared: {
-        srcs: ["lib/libfmq.so"],
-    },
-    static: {
-        srcs: ["lib/libfmq.a"],
+    arch: {
+        x86_64: {
+            shared: {
+                srcs: ["lib64/libfmq.so"],
+            },
+            static: {
+                srcs: ["lib64/libfmq.a"],
+            },
+        },
+        x86: {
+            shared: {
+                srcs: ["lib/libfmq.so"],
+            },
+            static: {
+                srcs: ["lib/libfmq.a"],
+            },
+        },
     },
 }
